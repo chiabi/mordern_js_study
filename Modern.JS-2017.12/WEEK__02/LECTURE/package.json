@@ -1,12 +1,16 @@
 {
   "scripts": {
-    "babel": "babel src/es6/main.js -o dist/js/main.js"
+    "babel": "babel src/es6/main.js -o dist/js/main.js",
+    "bundle": "babel src/es6/ -o dist/js/bundle.js",
+    // npm 스크립트에서 두명령어를 같이 사용하면서 옵션을 추가하고 싶으면 -- 추가
+    "watch": "yarn bundle -- --watch"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bulma": "^0.6.1",
     "jquery": "^3.2.1"
   }

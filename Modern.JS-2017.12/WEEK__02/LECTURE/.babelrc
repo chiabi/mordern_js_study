@@ -1,5 +1,9 @@
 {
   "presets": [
-    "env"
+    ["env", {
+      // 바벨은 기본적으로 import라는 코드를 require로 변경하는 데 그것을 
+      // 모듈 번들러를 사용할 것이므로 막아둔다.
+      "modules": false
+    }]
   ]
 }
