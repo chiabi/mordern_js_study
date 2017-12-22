@@ -75,7 +75,7 @@ es6로 변경해 바벨에서 돌려볼 거임
 
 [BULMA](https://bulma.io/) CSS 프레임워크를 이용할 것이므로 설치한다
 ```
-$ yarn add bluma
+$ yarn add bulma
 ```
 
 ```

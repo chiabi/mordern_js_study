@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>뷰를 배우자.</title>
+    <style>
+        body {
+            margin: 3rem;
+            font: 87.5%/1.5 "Spoqa Han Sans", Verdana;
+            color: rgb(87,78,78);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HTML 템블릿 -->
+    <!-- 사용자 입력, 입력된 내용을 화면에 출력 -->
+    <div class="demo">
+        <lable for="user-input">사용 도구</lable>
+        <input type="text" id="user-input" placeholder="Vue.js">
+        <p class="print">오늘 사용할 도구는 <span class="data-binding">...</span> 입니다.</p>
+    </div>
+
+    <!-- Vue가 사용하는 HTML 템플릿 -->
+    <div class="demo-vue">
+        <lable for="user-input-vue">사용 도구</lable>
+        <!-- 지시자 사용: 양방향 데이터 바인딩 v-model -->
+        <input v-model="msg" type="text" id="user-input-vue" placeholder="Vue.js">
+        <!-- {{}}안에는 javascrip expression만 들어갈 수 있다. -->
+        <p class="print">오늘 사용할 도구는 {{msg}} 입니다.</p>
+        <h3>자주사용되는 JavasScript 프레임워크</h3>
+        <ul class="our-frameworks">
+            <!-- 데이터 반복 순환 렌더링 -->
+            <li class="framework-type" v-for="fw in frameworks">{{fw}}</li>
+        </ul>
+    </div>
+
+    <!-- jquery Library CDN  -->
+    <!-- <script src="https://unpkg.com/jquery"></script> -->
+    <!-- Vue Library CDN : 뷰를 라이브러리처럼 사용 -->
+    <!-- <script src="https://unpkg.com/vue"></script> -->
+    <!-- Vue Library : Local data -->
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <!-- Vanilla Script -->
+    <script src="./data/message.js"></script>
+    <script>
+        (function(global, message){
+            'use strict';
+            
+            // 데이터 접근, 조작
+            // console.log(message);
+            // message.msg = 'this is native javascript';
+            
+            // DOM에 접근, 조작
+            let input, bind;
+            let detectUserInput = e => {
+                console.log(e.target.value);
+                // 데이터 변경
+                updateData(e.target.value);
+                // 화면 업데이트
+                updateRender(e.target.value);
+            };
+            let updateData = (value) => {
+                console.log('updateData');
+                message.msg = value;
+            };
+            let updateRender = (value) => {
+                console.log('updateRender');
+                bind.textContent = value;
+            };
+            input = document.querySelector('#user-input');
+            bind = document.querySelector('.data-binding');
+
+            // console.log('input : ', input);
+            // console.log('bind : ', bind);
+
+            // 초기 화면 렌더링
+            input.value = message.msg;
+            input.bind = message.msg;
+            // 이벤트 바인딩 <-> 이벤트 핸들러
+            input.addEventListener('keyup', detectUserInput)
+
+            // 사용자 입력 후, 화면 렌더링 업데이트
+        }) // (window, message);
+    </script>
+    <!-- jQuery -->
+    <script>
+        (function($ = window.jQuery, MESSAGE = message){
+            let $input = $('#user-input'),
+                $bind = $('.data-binding');
+            let update = data => {
+                MESSAGE.msg = data;
+                $bind.text(data);
+            }
+            update(MESSAGE.msg);
+            $input.on('keyup', e => {
+                let data = $(e.target).val();
+                update(data);
+            });
+        }) // ();
+    </script>
+    <!-- Vue.js -->
+    <script>
+        //ES6+
+        ((Vue = window.Vue) => {  // default parameter : 매개변수의 초기값을 설정할 수 있다.
+            message.frameworks = [
+                'Vue',
+                'React',
+                'Angular'
+            ];
+            // Vue.js 버전 출시
+            // console.log(`Vue Version: ${Vue.version}`);
+            
+            // Vue는 어떤 함수?
+            // class Vue {}
+            // 생성자 함수 => 객체생성
+            // function Vue() {}
+            // new Vue()
+            new Vue({
+                el: '.demo-vue',
+                // 상태(State, Model)
+                // data: message,
+                data: message
+            });
+
+            // const config = {
+            //     // 마운트할 요소 설정 => 선택자
+            //     el: '.demo-vue',
+            //     // 상태(State, Model)
+            //     // data: message,
+            //     data: {
+            //         msg: message
+            //     }
+            // };
+
+            // // Vue 객체는 생성했으나
+            // // 실제 HTML 요소에 마운팅 -> 작동
+            // // 마운트: 연결시켜주는 것
+            // new Vue(config); // 설정 객체를 던질 수 있따.
+        })();
+    </script>
+</body>
+</html>

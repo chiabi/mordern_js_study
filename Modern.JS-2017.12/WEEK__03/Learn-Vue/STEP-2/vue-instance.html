@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>뷰 인스턴스</title>
+</head>
+<body>
+
+    <div class="counter-app"></div>
+
+    <div class="demo">{{count}}</div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        // 외부로 분리된 데이터 객체
+        // 객체 참조로 두개 이상의 인스턴스가 셰어링 할 수 있다.
+        let counter = {
+            count: 10
+        };
+        // VM
+        window.vm1 = new Vue({
+            // 뷰 인스턴스
+            // - 상태 : state
+            // - 뷰 :view(template)
+            // - 액션 : action
+            el: '.counter-app',
+            // STATE (DATA)
+            data: counter,
+            // 생명주기(Lifr Cycle) 함수(Hook)
+            // create
+            beforeCreate(){
+                // console.log('before create', this);
+                // console.log(this.$el);
+            },
+            created(){
+                // console.log('after create', this);
+            },
+            // mount
+            // update
+            // destroy
+            // VIEW = STATE + TEMPLATE
+            template:  `
+            <div class="counter-app">
+                <div class="counter">{{ count }}</div>
+                <div class="counter-controls">
+                    <button aria-label="카운트 증가" type="button" class="increase-counter" v-on:click="increaseCounter">+</button>
+                    <button aria-label="카운트 감소" type="button" class="decrease-counter" v-on:click="decreaseCounter">-</button>
+                </div>
+            </div>
+            `,
+            // ACTION
+            methods: {
+                // 이벤트 핸들러 함수들이 여기에 존재
+                increaseCounter(){
+                    // console.log('카운터 증가');
+                    console.log(this);
+                    this.count++;
+                },
+                decreaseCounter(){
+                    // console.log('카운터 감소');
+                    console.log(this);
+                    // this.count--;
+                    // this.count = this.count - 1;
+                    let currentValue = this.count - 1;
+                    // 3항식을 사용한 조건식 결과 처리
+                    this.count = currentValue < 0 ? 0 : currentValue;
+                }
+            }
+        });
+        
+        window.vm2 = new Vue({
+            el: '.demo',
+            // STATE (DATA)
+            data: Object.assign({}, counter),
+        });
+    </script>
+    <script>
+    ((Vue = window.Vue) => {
+        // Vue 객체 생성
+        // 옵션 전달
+        // new Vue({
+        //     // 마운트
+        //     el: '.app',
+        //     // 데이터
+        //     // 상태
+        //     data: {
+        //         // 관리할 데이터 속성을 추가
+        //     },
+        //     // 템플릿
+        //     // 뷰
+        //     template: ``,
+        //     // 라이프사이클훅
+
+        //     // 메서드
+        //     // 액션
+        //     methods: {
+
+        //     },
+        //     // 컴퓨티드
+        // });
+    })();
+    </script>
+</body>
+</html>
