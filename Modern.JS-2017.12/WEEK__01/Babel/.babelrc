@@ -1,8 +1,5 @@
 {
-    // "plugins": [
-    //     "transform-es2015-block-scoping"
-    // ]
-    "presets": [
-        "env"
-    ]
+  "presets": [
+    "env"
+  ]
 }
